@@ -36,6 +36,18 @@ def eighth(x, y):
 				 ,a*g + c*e + d*f + b*h
 				 ,a*h + d*e - b*g - c*f))
 
+def squarerot(x, y):
+	"""
+	Square rotation symmetry multiplication. j^2 = k^2 = ijk = i, i^2 = 1
+	Commutative
+	"""
+	a,b,c,d = x
+	e,f,g,h = y
+	return array((a*e + b*f + c*h + d*g
+				 ,a*f + b*e + c*g + d*h
+				 ,a*g + c*e + d*f + b*h
+				 ,a*h + d*e + b*g + c*f))
+
 def triple_splitcomplex(x, y):
 	"""
 	Triply split-complex: i^2 = j^2 = k^2 = ijk = 1

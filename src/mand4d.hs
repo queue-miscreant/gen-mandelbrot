@@ -57,6 +57,12 @@ eightMult (Q a b c d) (Q e f g h) = Q r i j k
         j = a*g + c*e + b*h + d*f
         k = a*h + d*e - b*g - c*f
 
+squarerotMult (Q a b c d) (Q e f g h) = Q r i j k
+  where r = a*e + b*f + c*h + d*g
+        i = a*f + b*e + c*g + d*h
+        j = a*g + c*e + b*h + d*f
+        k = a*h + d*e + b*g + c*f
+
 antiEightMult (Q a b c d) (Q e f g h) = Q r i j k
   where r = a*e - b*f + c*h - d*g
         i = a*f + b*e + c*g + d*h
