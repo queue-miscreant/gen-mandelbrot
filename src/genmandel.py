@@ -19,7 +19,7 @@ def get_grid(points, lower=-2, upper=2, unityroot=1j):
 	imag = np.array([test_range[::-1] for _ in range(points)])
 	return real + unityroot*imag.T
 
-def mandelbrot(iters, unityroot=4, pow=2, thresh=2):
+def mandelbrot(iters, unityroot=4, pow=2, thresh=4):
 	'''Classical mandelbrot set with normal complex arithmetic'''
 	root = np.exp(np.pi * 2j / unityroot)
 	zs = get_grid(200, unityroot=root)
@@ -42,9 +42,9 @@ taxicab.__doc__ = "$|a| + |b|$"
 maxnorm = lambda x: max(map(abs, x))
 maxnorm.__doc__ = "$\\max(|a|, |b|)$"
 
-def gen_mandelbrot(points, iters, mult=d2.comp, norm=norm2, pow=2, thresh=2):
+def gen_mandelbrot(points, iters, mult=d2.comp, norm=norm2, pow=2, thresh=4):
 	'''
-	Generalized mandelbrot set. 
+	Generalized mandelbrot set.
 	`mult` describes the multiplication
 	`norm` describes the norm to check against `thresh`
 	z^n can be changed with `pow`.
@@ -100,7 +100,7 @@ def mandelbrotn(points, iters, mult=d3.sixthroot, norm=norm2, pow=2, thresh=6, d
 
 	return c[small == 0]
 
-def slice3d(points, iters, a=0, mult=d3.sixthroot, pow=2, thresh=12):
+def slice3d(points, iters, a=0, mult=d3.sixthroot, norm=norm2, pow=2, thresh=12):
 	'''
 	Get a slice in the ij plane of the above, where a=`a`
 	`points`^3 comprise the lattice, and it is applied `iters` times
@@ -112,8 +112,8 @@ def slice3d(points, iters, a=0, mult=d3.sixthroot, pow=2, thresh=12):
 	c = zs.copy()
 
 	#bleh, efficiency
-	power = lambda x: reduce(mult, [x for _ in range(pow)])
-	#power = lambda x: reduce(mult, [x for _ in range(pow)]) if norm(x) < thresh else x
+	#power = lambda x: reduce(mult, [x for _ in range(pow)])
+	power = lambda x: reduce(mult, [x for _ in range(pow)]) if norm(x) < thresh else x
 
 	small = np.zeros(len(c))
 
@@ -121,7 +121,7 @@ def slice3d(points, iters, a=0, mult=d3.sixthroot, pow=2, thresh=12):
 		tick = time.time()
 		zs = np.apply_along_axis(power, 1, zs) + c
 		print(f"Iteration {i}; time = " + str(time.time() - tick))
-		small += np.apply_along_axis(norm2, 1, zs) >= thresh
+		small += np.apply_along_axis(norm, 1, zs) >= thresh
 
 	return np.reshape(small, plane.shape)
 
@@ -177,11 +177,16 @@ def slice_vid(as_, points, slicer=_slicer3, iters=7, fname="slices of 3d.mp4"):
 		for a in as_:
 			slice_ = slicer(points, iters, a)
 			plt.imshow(slice_, cmap='inferno')
-			plt.title(f"$\\Re(z) = {a}$")
 			plt.clim(0, iters-1)
 			writer.grab_frame()
 			plt.clf()
 	print("\a")
+
+			#xi = np.exp(1j * a)
+			#x = points//2
+			#plt.arrow(x, x, x//8*xi.real, -x//8*xi.imag, color="blue", width=0.25)
+			#plt.title(f"$\\Re(z) = {a}$")
+			#plt.title(f"$i^2 = {xi}$")
 
 def all_slices(as_, points, mult, iters=7):
 	'''
