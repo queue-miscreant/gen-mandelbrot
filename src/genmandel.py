@@ -178,6 +178,7 @@ def slice_vid(as_, points, slicer=_slicer3, iters=7, fname="slices of 3d.mp4"):
 			slice_ = slicer(points, iters, a)
 			plt.imshow(slice_, cmap='inferno')
 			plt.clim(0, iters-1)
+			plt.title(f"$\\Re(z) = {a}$")
 			writer.grab_frame()
 			plt.clf()
 	print("\a")
@@ -185,7 +186,6 @@ def slice_vid(as_, points, slicer=_slicer3, iters=7, fname="slices of 3d.mp4"):
 			#xi = np.exp(1j * a)
 			#x = points//2
 			#plt.arrow(x, x, x//8*xi.real, -x//8*xi.imag, color="blue", width=0.25)
-			#plt.title(f"$\\Re(z) = {a}$")
 			#plt.title(f"$i^2 = {xi}$")
 
 def all_slices(as_, points, mult, iters=7):

@@ -86,14 +86,14 @@ def split_complex_double_complex(x, y):
 
 def complex_double_split_complex(x, y):
 	"""
-	Complex in i; split-complex in j, k. ik = -j, jk = -i
+	Complex in i; split-complex in j, k. ik = j, ij = k, jk = -i
 	Commutative, nonassociative in ij^2
 	"""
 	a,b,c,d = x
 	e,f,g,h = y
 	return array((a*e - b*f + c*g + d*h
 				 ,a*f + b*e - d*g - c*h
-				 ,a*g + c*e - d*f - b*h
+				 ,a*g + c*e + d*f + b*h
 				 ,a*h + d*e + b*g + c*f))
 
 def antidihed(x, y):

@@ -42,7 +42,7 @@ comp2split1Mult (Q a b c d) (Q e f g h) = Q r i j k
 comp1split2Mult (Q a b c d) (Q e f g h) = Q r i j k
   where r = a*e - b*f + c*g + d*h
         i = a*f + b*e - c*h - d*g
-        j = a*g + c*e - b*h - d*f
+        j = a*g + c*e + b*h + d*f
         k = a*h + d*e + b*g + c*f
 
 antidihedralMult (Q a b c d) (Q e f g h) = Q r i j k
